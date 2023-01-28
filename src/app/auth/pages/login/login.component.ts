@@ -24,11 +24,11 @@ export class LoginComponent {
 		private _authService: AuthService
 	) { }
 
-	login():void{
+	logIn():void{
 		console.table(this.formLogin.value);
 		const {email, password} = this.formLogin.value;
 
-		this._authService.login(email, password).subscribe(
+		this._authService.logIn(email, password).subscribe(
 			(rta) => {
 				if(rta === true)
 					this.router.navigateByUrl('/dashboard')

@@ -22,7 +22,7 @@ export class AuthService {
     private http: HttpClient
   ) { }
 
-  login(email: string, password: string){
+  logIn(email: string, password: string){
     const urlLogin = `${this.url}/auth`;
     const body = {email,password}
 
@@ -37,6 +37,10 @@ export class AuthService {
           map( valid => valid.ok),
           catchError( err => of(err.error.msg))
         );
+  }
+
+  logout(){
+    localStorage.removeItem('token');
   }
 
   validateToken() {
