@@ -26,10 +26,12 @@ export class LoginComponent {
     console.table(this.formLogin.value);
     const {email, password} = this.formLogin.value;
 
-    this._authService.login(email, password).subscribe(
-        response => {
-            console.log(response);
-        });
+    this._authService .login(email, password)
+                      .subscribe(
+                          ok => {
+                              ok? this.router.navigateByUrl('/dashboard'):
+                                  console.log('Msj de error');
+                          });
     // this.router.navigateByUrl('/dashboard');
   }
 }
