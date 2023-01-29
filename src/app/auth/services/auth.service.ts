@@ -59,4 +59,21 @@ export class AuthService {
       );
   }
 
+  registro( name: string, email: string, password: string) {
+    const urlRegister = `${this.url}/auth/new`;
+    const body = {name,email,password}
+
+    return this.http.post<AuthResponse>(urlRegister,body)
+    .pipe(
+      tap( response => {
+        if (response.ok) {
+          localStorage.setItem('token',response.token!);
+          this._usuario = { name: response.name!, uid: response.uid!};
+        }
+      }),
+      map( valid => valid.ok),
+      catchError( err => of(err.error.msg))
+    );
+  }
+
 }

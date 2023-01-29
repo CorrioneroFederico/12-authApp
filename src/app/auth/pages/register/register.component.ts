@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { AuthService } from '../../services/auth.service';
+
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -17,12 +20,23 @@ export class RegisterComponent  {
   });
 
   constructor(
-    private _fb: FormBuilder,
-    private router: Router,
+    private _authService: AuthService,
+    private _fb:          FormBuilder,
+    private _router:      Router,
   ) { }
 
   register():void{
-    this.router.navigateByUrl('/auth');
-  }
+    const {name, email, password} = this.formRegister.value;
 
+    this._authService.registro(name, email, password).subscribe(
+      (rta) =>{
+      if (rta.ok === true){
+        Swal.fire('Registro',rta,'success');
+        this._router.navigateByUrl('/auth');
+      }
+      else
+        Swal.fire('Error', rta, 'error');
+    });
+
+  }
 }
